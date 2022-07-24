@@ -2,7 +2,7 @@ import { RemovalPolicy } from "aws-cdk-lib";
 import { AttributeType, BillingMode, ITable, Table } from "aws-cdk-lib/aws-dynamodb";
 import { Construct } from "constructs";
 
-export class Database extends Construct {
+export default class Database extends Construct {
   public readonly baseTable: ITable;
 
   constructor(scope: Construct, id: string){

@@ -6,7 +6,7 @@ interface ApiGatewayProps {
     inlineResponseFunction: IFunction
 }
 
-export class ApiGateway extends Construct {    
+export default class ApiGateway extends Construct {    
   constructor(scope: Construct, id: string, props: ApiGatewayProps){
     super(scope, id);
 

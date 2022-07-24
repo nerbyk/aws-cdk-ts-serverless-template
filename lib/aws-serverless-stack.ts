@@ -1,19 +1,14 @@
-
-
 import { Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import { Database } from './database';
-import { Functions } from './functions';
-import { ApiGateway } from './apigateway';
+import { DB, Lambdas, ApiGateway } from './resources' 
 import * as dotenv from 'dotenv';
 
 dotenv.config();
-
 export class AwsServerlessStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    const database = new Database(this, 'Database');
+    const database = new DB(this, 'Database');
 
     const functions = new Functions(this, 'Functions', {
       baseTable: database.baseTable, 

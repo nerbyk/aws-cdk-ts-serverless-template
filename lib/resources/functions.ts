@@ -12,7 +12,7 @@ interface FunctionsProps {
   tgSecret: string;
 }
 
-export class Functions extends Construct {
+export default class Functions extends Construct {
 
   public readonly inlineResponseFunction: NodejsFunction;
 
@@ -29,7 +29,6 @@ export class Functions extends Construct {
           'aws-sdk'
         ],
         minify: true, // minify code, defaults to false
-        target: 'es2020', // target environment for the generated JavaScript code
         define: {
           'process.env.TELEGRAM_SECRET': JSON.stringify('xxx-xxxx-xxx'),
           'process.env.DYNAMODB_TABLE_NAME': JSON.stringify('table-name')
