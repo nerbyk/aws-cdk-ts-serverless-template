@@ -10,17 +10,17 @@ export default class ApiGateway extends Construct {
   constructor(scope: Construct, id: string, props: ApiGatewayProps){
     super(scope, id);
 
-    this.createInlineResponseApi(props.inlineResponseFunction);
+    this.createCSizeBotApi(props.inlineResponseFunction);
   }
 
-  private createInlineResponseApi(inlineResponseFunction: IFunction) {
-    const apigw = new LambdaRestApi(this, 'inlineResponseApi', {
+  private createCSizeBotApi(inlineResponseFunction: IFunction) {
+    const apigw = new LambdaRestApi(this, 'CSizeBotApi', {
         restApiName: 'Inline Response',
         handler: inlineResponseFunction,
         proxy: false,
     });
 
-    const product = apigw.root.addResource('inlineResponse');
-    product.addMethod('POST'); // POST /product
+    const product = apigw.root.addResource('CSizeBotApi');
+    product.addMethod('POST'); // POST CSizeBotApi 
   }
 }

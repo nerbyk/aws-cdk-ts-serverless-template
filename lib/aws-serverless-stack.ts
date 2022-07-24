@@ -10,7 +10,7 @@ export class AwsServerlessStack extends Stack {
 
     const database = new DB(this, 'Database');
 
-    const functions = new Functions(this, 'Functions', {
+    const functions = new Lambdas(this, 'Functions', {
       baseTable: database.baseTable, 
       tgSecret: process.env.TELEGRAM_SECRET as string
     });

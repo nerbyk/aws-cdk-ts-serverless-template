@@ -50,11 +50,12 @@ export default class Functions extends Construct {
       }
     }
     const inlineResponseFunction = new NodejsFunction(this, 'inlineResponseLambdaFunction', {
-      entry: join(__dirname, `/../src/inlineResponse/index.ts`),
+      entry: join(__dirname, `/../../src/inlineResponse/index.ts`),
       ...nodeJsFunctionProps,
     });
 
     baseTable.grantReadWriteData(inlineResponseFunction);
+
     return inlineResponseFunction;
   };
 }
