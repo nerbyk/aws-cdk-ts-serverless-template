@@ -1,13 +1,13 @@
 // import * as cdk from 'aws-cdk-lib';
 // import { Template } from 'aws-cdk-lib/assertions';
-// import * as CSizeBot from '../lib/c_size_bot-stack';
+// import * as CdkTool from '../lib/cdk-tool-stack';
 
 // example test. To run these tests, uncomment this file along with the
-// example resource in lib/c_size_bot-stack.ts
+// example resource in lib/cdk-tool-stack.ts
 test('SQS Queue Created', () => {
 //   const app = new cdk.App();
 //     // WHEN
-//   const stack = new CSizeBot.CSizeBotStack(app, 'MyTestStack');
+//   const stack = new CdkTool.CdkToolStack(app, 'MyTestStack');
 //     // THEN
 //   const template = Template.fromStack(stack);
 

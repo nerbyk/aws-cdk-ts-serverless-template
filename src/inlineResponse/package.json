@@ -1,0 +1,14 @@
+{
+  "name": "@src/product",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.67.0",
+    "@aws-sdk/util-dynamodb": "^3.67.0",
+    "node-fetch": "^2.6.7"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.101",
+    "@types/node-fetch": "^2.6.2"
+  }
+}
