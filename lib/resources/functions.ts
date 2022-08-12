@@ -10,6 +10,7 @@ import { join } from "path";
 interface FunctionsProps {
   baseTable: ITable;
   tgSecret: string;
+  region: string;
 }
 
 export default class Functions extends Construct {
@@ -19,10 +20,10 @@ export default class Functions extends Construct {
   constructor(scope: Construct, id: string, props: FunctionsProps){
     super(scope, id);    
 
-    this.inlineResponseFunction = this.createInlineResponseFunction(props.baseTable, props.tgSecret);
+    this.inlineResponseFunction = this.createInlineResponseFunction(props.baseTable, props.tgSecret, props.region);
   }
 
-  private createInlineResponseFunction(baseTable: ITable, tgSecret: string) : NodejsFunction {
+  private createInlineResponseFunction(baseTable: ITable, tgSecret: string, region: string) : NodejsFunction {
     const nodeJsFunctionProps: NodejsFunctionProps = {
       bundling: {
         externalModules: [
@@ -31,7 +32,8 @@ export default class Functions extends Construct {
         minify: true, // minify code, defaults to false
         define: {
           'process.env.TELEGRAM_SECRET': JSON.stringify('xxx-xxxx-xxx'),
-          'process.env.DYNAMODB_TABLE_NAME': JSON.stringify('table-name')
+          'process.env.DYNAMODB_TABLE_NAME': JSON.stringify('table-name'), 
+          'process.env.REGION': JSON.stringify('region')
         },
         sourceMap: true, // include source map, defaults to false
         sourceMapMode: SourceMapMode.INLINE, // defaults to SourceMapMode.DEFAULT
@@ -46,7 +48,8 @@ export default class Functions extends Construct {
       architecture: Architecture.ARM_64,
       environment: {
         DYNAMODB_TABLE_NAME: baseTable.tableName,
-        TELEGRAM_SECRET: tgSecret as string
+        TELEGRAM_SECRET: tgSecret as string, 
+        REGION: region as string
       }
     }
     const inlineResponseFunction = new NodejsFunction(this, 'inlineResponseLambdaFunction', {

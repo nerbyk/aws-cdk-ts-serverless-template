@@ -1,8 +1,8 @@
 {
-  "name": "cdk-tool",
+  "name": "aws-serverless-stack",
   "version": "0.1.0",
   "bin": {
-    "cdk-tool": "bin/cdk-tool.js"
+    "aws-serverless": "bin/aws-serverless.js"
   },
   "scripts": {
     "build": "tsc",

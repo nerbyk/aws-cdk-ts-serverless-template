@@ -1,5 +1,5 @@
 {
-  "name": "@src/product",
+  "name": "@src/inline-response",
   "version": "1.0.0",
   "main": "index.js",
   "dependencies": {
@@ -9,6 +9,7 @@
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.101",
-    "@types/node-fetch": "^2.6.2"
+    "@types/node-fetch": "^2.6.2",
+    "@types/node-telegram-bot-api": "^0.57.1"
   }
 }

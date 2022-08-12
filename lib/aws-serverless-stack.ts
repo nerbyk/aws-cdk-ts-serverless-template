@@ -12,7 +12,8 @@ export class AwsServerlessStack extends Stack {
 
     const functions = new Lambdas(this, 'Functions', {
       baseTable: database.baseTable, 
-      tgSecret: process.env.TELEGRAM_SECRET as string
+      tgSecret: process.env.TELEGRAM_SECRET as string, 
+      region: process.env.REGION as string
     });
 
     const apigateway = new ApiGateway(this, 'ApiGateway', {

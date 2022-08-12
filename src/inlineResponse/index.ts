@@ -1,5 +1,5 @@
-import { ddbData, getItem, createItem } from "./ddbClient";
-import { sendMessage } from "./tgClient"
+import { ddbData, getItem, createItem } from "./helpers/ddbClient";
+import { sendMessage } from "./helpers/tgClient"
 import { APIGatewayEvent } from "aws-lambda";
 
 const TTL_DELTA = 60 * 60 * 5 // 5 hours
@@ -8,22 +8,22 @@ const getRandInt = (min: number, max: number) => Math.floor(Math.random() * (max
 exports.handler = async function(event: APIGatewayEvent) {
     console.log("request:", JSON.stringify(event, undefined, 2));  
     
-    let body;
+    let dbItem : ddbData;
     const { chatId } = JSON.parse(event.body as string)
-    const newDdbItem : ddbData = { id: chatId, value: getRandInt(5,35), ttl: Date.now() + TTL_DELTA }
+    const newDdbItem : ddbData = { id: chatId, value: getRandInt(5,35) };
 
     try{
-      body = await getItem(chatId) || await createItem(newDdbItem)
+      dbItem = await getItem(chatId) || await createItem(newDdbItem, TTL_DELTA)
 
-      console.log(body);
+      console.log(dbItem);
 
-      await sendMessage(chatId, body.value)
+      // await sendMessage({ id: dbItem.id, text: `${dbItem.value}` });
 
       return {
         statusCode: 200,
         body: JSON.stringify({
           message: `Successfully finished operation: "${event.httpMethod}"`,
-          body: body
+          body: dbItem // body
         })
       };
 
