@@ -5,6 +5,6 @@ import * as dotenv from 'dotenv';
 import { AwsServerlessStack } from '../lib/aws-serverless-stack';
 
 const app = new cdk.App();
-new AwsServerlessStack(app, 'AwsServerlessStackPlayground', {
+new AwsServerlessStack(app, 'AwsServerlessStack', {
   env: { ...dotenv.config().parsed },
 });
