@@ -90,27 +90,4 @@ export default class Functions extends Construct {
 
     return RubyFunction;
   }
-
-  // private createGoFunction(baseTable: ITable, tgSecret: string, region: string) : Function { 
-  //   const GoFunctionProps = {
-  //     code: Code.fromAsset(join(__dirname, `/../../src/go_function/`)),
-  //     handler: 'index.handler',
-  //     runtime: Runtime.GO_1_X,
-  //     timeout: Duration.seconds(60),
-  //     logRetention: RetentionDays.ONE_WEEK,
-  //     environment: {
-  //       DYNAMODB_TABLE_NAME: baseTable.tableName,
-  //       TELEGRAM_SECRET: tgSecret as string, 
-  //       REGION: region as string
-  //     },
-  //     memorySize: 256,
-  //     reservedConcurrentExecutions: 1
-  //   }
-    
-  //   const GoFunction = new Function(this, 'GoFunction', GoFunctionProps);
-
-  //   baseTable.grantReadWriteData(GoFunction);
-
-  //   return GoFunction;
-  // }
 }
