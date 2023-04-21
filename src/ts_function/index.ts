@@ -1,42 +1,38 @@
-import { ddbData, getItem, createItem } from "./helpers/ddbClient";
-import { sendMessage } from "./helpers/tgClient"
 import { APIGatewayEvent } from "aws-lambda";
+import { DynamoDBClient, GetItemCommand } from "@aws-sdk/client-dynamodb";
+import { marshall, unmarshall } from "@aws-sdk/util-dynamodb";
 
-const TTL_DELTA = 60 * 60 * 5 // 5 hours
-const getRandInt = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
+type ConnectionData = {
+  region: string;
+  tableName: string;
+}
+
+class DBClient {
+  documentClient: DynamoDBClient;
+  tableName: string;
+  params: { TableName: string };
+  
+  constructor(connectionData: ConnectionData) {
+    this.documentClient = new DynamoDBClient({ region: connectionData.region });
+    this.tableName = connectionData.tableName;
+    this.params = { TableName: this.tableName };
+  }
+  
+  getRequest = async (uid: string) => await this.documentClient
+    .get({ ...this.params, Key: { uid } })
+    .promise();
+}
+
+const DB = new DBClient({ region: 'eu-central-1', tableName: process.env.TABLE_NAME});
 
 exports.handler = async function(event: APIGatewayEvent) {
-    console.log("request:", JSON.stringify(event, undefined, 2));  
-    
-    let dbItem : ddbData;
-    const { chatId } = JSON.parse(event.body as string)
-    const newDdbItem : ddbData = { id: chatId, value: getRandInt(5,35) };
+  console.log("request:", JSON.stringify(event, undefined, 2));  
+  
+  const data = await DB.getRequest(marshall(event.pathParameters.uid));
+  
+  return {
+    statusCode: 200,
+    body: JSON.stringify(unmarshall(data))  
+  };
+}
 
-    try{
-      dbItem = await getItem(chatId) || await createItem(newDdbItem, TTL_DELTA)
-
-      console.log(dbItem);
-
-      // await sendMessage({ id: dbItem.id, text: `${dbItem.value}` });
-
-      return {
-        statusCode: 200,
-        body: JSON.stringify({
-          message: `Successfully finished operation: "${event.httpMethod}"`,
-          body: dbItem // body
-        })
-      };
-
-    } catch (err) {
-      const typedError = err as Error;
-      console.error(typedError);
-      return {
-        statusCode: 500,
-        body: JSON.stringify({
-          message: "Failed to perform operation.",
-          errorMsg: typedError.message,
-          errorStack: typedError.stack,
-        })
-      };
-    }
-};
